@@ -1,0 +1,42 @@
+  { name="draught of war", itemnumber="93935", }
+  { name="earthen potion", itemnumber="80478", }
+  { name="ghost elixir", itemnumber="80477", }
+  { name="deathblood venom", itemnumber="80479", }
+  { name="elixir of the naga", itemnumber="80480", }
+  { name="volcanic potion", itemnumber="80481", }
+  { name="potion of illusion", itemnumber="80269", }
+  { name="elixir of the cobra", itemnumber="80484", }
+  { name="potion of concentration", itemnumber="80482", }
+  { name="deepstone oil", itemnumber="80486", }
+  { name="mysterious potion", itemnumber="80487", }
+  { name="elixir of deep earth", itemnumber="80488", }
+  { name="mighty rejuvenation potion", itemnumber="80490", }
+  { name="elixir of impossible accuracy", itemnumber="80491", }
+  { name="prismatic elixir", itemnumber="80492", }
+  { name="mythical mana potion", itemnumber="80494", }
+  { name="potion of the tol'vir", itemnumber="80495", }
+  { name="transmute: living elements", itemnumber="78866", }
+  { name="elixir of mighty speed", itemnumber="80493", }
+  { name="golemblood potion", itemnumber="80496", }
+  { name="elixir of the master", itemnumber="80497", }
+  { name="mythical healing potion", itemnumber="80498", }
+  { name="flask of enhancement", itemnumber="80724", }
+  { name="flask of flowing water", itemnumber="94162", }
+  { name="flask of steelskin", itemnumber="80719", }
+  { name="lifebound alchemist stone", itemnumber="80508", }
+  { name="flask of the draconic mind", itemnumber="80270", }
+  { name="dream emerald", itemnumber="80251", }
+  { name="flask of the winds", itemnumber="80721", }
+  { name="flask of titanic strength", itemnumber="80723", }
+  { name="ember topaz", itemnumber="80250", }
+  { name="demonseye", itemnumber="80248", }
+  { name="ocean sapphire", itemnumber="80246", }
+  { name="amberjewel", itemnumber="80247", }
+  { name="pyrium bar", itemnumber="80244", }
+  { name="big cauldron of battle", itemnumber="92688", }
+  { name="cauldron of battle", itemnumber="92643", }
+  { name="potion of deepholm", itemnumber="80725", }
+  { name="potion of treasure finding", itemnumber="80726", }
+  { name="inferno ruby", itemnumber="80245", }
+  { name="shadowspirit diamond", itemnumber="80237", }
+  { name="truegold", itemnumber="80243", }

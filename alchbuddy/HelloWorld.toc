@@ -1,0 +1,12 @@
+## Interface: 40600
+## Title: Shift_TimingLib |c0000FF00 (English)|r
+## Version: v1.0.0
+## Notes: Does cool stuff n' things
+## Author: Shift <Scions of Eternity>/Alexstrasza-US
+## X-Website: http://thesource.homelinux.net:8080
+## X-Category: 
+## OptionalDeps:
+## SavedVariables: 
+## SavedVariablesPerCharacter: 
+
+shit_timinglib.lua
