@@ -1,15 +1,42 @@
 do --[[ Math Functions ]]--
-	local  function fac(n)
-		if n==1 then 
-			return 1
-		else
-			return n * fac(n-1)
+	mymath = {}
+	mymath.fac = function(n)
+			if n==1 then 
+				return 1
+			else
+				return n * fac(n-1)
+			end
+		end
+		
+	mymath.percInc = function(base, perc)
+		return (string.format("%.2f",(base + (base * (perc/100)))))
+	end
+	mymath.percDec = function(base, perc)
+		return (string.format("%.2f",(base - (base * (perc/100)))))
+	end
+		
+
+	mymath.percOf = function(perc, val, result)
+		local msg = "%.2f%% of %.2f is %.2f"
+		-- same as WHAT perc OF val IS result
+		if (perc) and (val) and not result then -- calc result
+			result = tonumber((string.format("%.2f",((perc/100) * val))))
+			return msg:format(perc, val, result)
+			
+		elseif (perc) and (result) and not (val) then -- calc Val
+			val = string.format((result / (perc/100)))
+			return msg:format(perc, val, result) 
+			
+		elseif (val) and (result) and not perc then -- calc %
+			perc = string.format("%.2f",(result / (val)))
+			return msg:format(perc, val, result)
 		end
 	end
 end
 
 do --[[ US Dollar Conversions ]]--
-	yen_to_dollar = function(yen) 
+	mymoney = {}
+	mymoney.yen_to_dollar = function(yen) 
 		return string.format("%.2f",(yen * 0.0122))
 	end
 end
@@ -103,7 +130,8 @@ do --[[ WoW Currency Conversion ]]--
 end
 
 do --[[ Printing Functions ]]--
-	local function printlines(...)
+	myprint = {}
+	myprint.printlines = function(...)
 		for i=1, select("#", ...) do
 			print((select(i, ...)))
 		end
