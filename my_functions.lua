@@ -1,12 +1,17 @@
 do --[[ Math Functions ]]--
 	mymath = {}
-	mymath.fac = function(n)
-			if n==1 then 
-				return 1
-			else
-				return n * fac(n-1)
-			end
+	function mymath:print()
+		for k,v in pairs(self) do
+			print(tostring(k).."\t\t"..tostring(v))
 		end
+	end
+	mymath.fac = function(n)
+		if n==1 then 
+			return 1
+		else
+			return n * fac(n-1)
+		end
+	end
 		
 	mymath.percInc = function(base, perc)
 		return (string.format("%.2f",(base + (base * (perc/100)))))
@@ -16,7 +21,7 @@ do --[[ Math Functions ]]--
 	end
 		
 
-	mymath.percOf = function(perc, val, result)
+	mymath.perc = function(perc, val, result)
 		local msg = "%.2f%% of %.2f is %.2f"
 		-- same as WHAT perc OF val IS result
 		if (perc) and (val) and not result then -- calc result
@@ -28,8 +33,10 @@ do --[[ Math Functions ]]--
 			return msg:format(perc, val, result) 
 			
 		elseif (val) and (result) and not perc then -- calc %
-			perc = string.format("%.2f",(result / (val)))
+			perc = string.format("%.2f",(result / (val)*100))
 			return msg:format(perc, val, result)
+		else
+			return "usage: perc( PERCENTAGE, VALUE, RESULT ) \nEnter at least (2) values. Use \"nil\" for unknown values."
 		end
 	end
 end
