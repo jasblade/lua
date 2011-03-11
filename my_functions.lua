@@ -111,6 +111,9 @@ do --[[ WoW Currency Conversion ]]--
 		if select("#",...) == 3 then
 			if (type(select(1,...)) == "string") and (type(select(2,...)) == "string") and (type(select(3,...)) == "string") then
 				return (_g2c((select(1,...))) + _s2c((select(2,...))) + (select(3,...)))
+			elseif (type(select(1,...)) == "number") and (type(select(2,...)) == "number") and (type(select(3,...)) == "number") then
+				
+				return (_g2c( tonumber((select(1,...))) ) + _s2c( tonumber((select(2,...)))) + tonumber((select(3,...))))
 			else
 				return error("All values must be same type")
 			end
