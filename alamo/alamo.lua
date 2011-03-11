@@ -25,6 +25,7 @@ Alamo = {
 		if (playerClass~="DRUID") then
 			-- don't even bother saying we didn't load.  just pretend we don't exist.
 			-- sum durids is 4 keeping their mouths shut when they play their alts.
+			AlamoData.Active = false
 			return;
 		end;		
 
@@ -300,7 +301,7 @@ Alamo = {
 	end;
 
 	GetCurrentForm = function()
-		local maxForms = GetNumShapeshiftForms();
+--[[		local maxForms = GetNumShapeshiftForms();
 		local currentFormIndex = 0;
 		local currentFormName = nil;
 		
@@ -317,6 +318,21 @@ Alamo = {
 		end
 		
 		return currentFormName;
+]]--	
+		--[[ I think there's a better way to write this function ]]--
+		local tshape = {}
+		tshape = { 
+			1="Cat Form",
+			2="Tree of Life Form", 
+			3="Travel Form",
+			4="Aquatic Form", 
+			5="Bear Form", 
+			27="Flight Form", 
+			31="Moonkin Form" 
+		}
+		id = GetShapeshiftFormID()
+		return tshape[id] or "Humanoid Form"
+		
 	end;
 
 	GetShapeshiftMessage = function(formName)
@@ -395,42 +411,42 @@ Alamo = {
         elseif string.find(name, "humanoid") then
  	    	return casterMessages[math.random(table.getn(casterMessages))];
         elseif string.find(name, "moonkin") then
- 			return moonkinMessages[math.random(table.getn(moonkinMessages))];
+		return moonkinMessages[math.random(table.getn(moonkinMessages))];
         elseif string.find(name, "travel") then
- 			return cheetahMessages[math.random(table.getn(cheetahMessages))];
+		return cheetahMessages[math.random(table.getn(cheetahMessages))];
         elseif string.find(name, "aqua") then
-	 		return sealMessages[math.random(table.getn(sealMessages))];
+		return sealMessages[math.random(table.getn(sealMessages))];
         elseif string.find(name, "tree") then
-	 		return treeMessages[math.random(table.getn(treeMessages))];
+		return treeMessages[math.random(table.getn(treeMessages))];
         elseif string.find(name, "flight") then
-	 		return flightMessages[math.random(table.getn(flightMessages))];
-		else
-			Alamo.debug("Can't get shapeshift message: form \""..Alamo.format(name).."\" not recognized.");
-			return nil;
-		end
-	end;
+		return flightMessages[math.random(table.getn(flightMessages))];
+	else
+		Alamo.debug("Can't get shapeshift message: form \""..Alamo.format(name).."\" not recognized.");
+		return nil;
+	end
+end;
 	
 	
 	format = function(oVar)
-        if(oVar == nil) then 
-            return "nil";
-        elseif(type(oVar) == "table") then
-            local i, v = next(oVar, nil);
-            local ret = "{ ";
-            while i do
-                ret = ret .. Alamo.format(v) .. " ";
-                i, v = next(oVar, i);
-            end
-            ret = ret .. "}";
-            return ret;
+		if(oVar == nil) then 
+			return "nil";
+		elseif(type(oVar) == "table") then
+			local i, v = next(oVar, nil);
+			local ret = "{ ";
+			while i do
+				ret = ret .. Alamo.format(v) .. " ";
+				i, v = next(oVar, i);
+			end
+			ret = ret .. "}";
+			return ret;
 		elseif(type(oVar)=="boolean") then
 			if (oVar==false) then
 				return "false";
 			else
 				return "true";
 			end;
-        else
-            return oVar;
+		else
+		    return oVar;
         end
     end;
 

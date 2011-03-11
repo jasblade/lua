@@ -2,7 +2,7 @@ do --[[ Math Functions ]]--
 	mymath = {}
 	function mymath:print()
 		for k,v in pairs(self) do
-			print(tostring(k).."\t\t"..tostring(v))
+			print(tostring(k).."\t\t\t"..tostring(v))
 		end
 	end
 	mymath.fac = function(n)
@@ -21,25 +21,63 @@ do --[[ Math Functions ]]--
 	end
 		
 
-	mymath.perc = function(perc, val, result)
+	mymath.perc = function(perc, val, result, mytype)
 		local msg = "%.2f%% of %.2f is %.2f"
 		-- same as WHAT perc OF val IS result
 		if (perc) and (val) and not result then -- calc result
 			result = tonumber((string.format("%.2f",((perc/100) * val))))
-			return msg:format(perc, val, result)
+			if mytype then
+				return result
+			else
+				return msg:format(perc, val, result)
+			end
 			
 		elseif (perc) and (result) and not (val) then -- calc Val
-			val = string.format((result / (perc/100)))
-			return msg:format(perc, val, result) 
+			val = tonumber(string.format((result / (perc/100))))
+				if mytype then
+				return val
+			else
+				return msg:format(perc, val, result)
+			end
 			
 		elseif (val) and (result) and not perc then -- calc %
-			perc = string.format("%.2f",(result / (val)*100))
-			return msg:format(perc, val, result)
+			perc = tonumber(string.format("%.2f",(result / (val)*100)))
+			if mytype then
+				return perc
+			else
+				return msg:format(perc, val, result)
+			end
 		else
-			return "usage: perc( PERCENTAGE, VALUE, RESULT ) \nEnter at least (2) values. Use \"nil\" for unknown values."
+			return "usage: perc( PERCENTAGE, VALUE, RESULT, BOOLEAN ) \nEnter at least (2) values. Use \"nil\" for unknown values.\nBy adding ARG4 boolean the result can be just a value and not a string."
 		end
 	end
 end
+do --[[ Printing Functions ]]--
+	myprint = {}	
+	function myprint:print()
+		for k,v in pairs(self) do
+			print(tostring(k).."\t\t\t"..tostring(v))
+		end
+	end
+	myprint.printlines = function(...)
+		for i=1, select("#", ...) do
+			print((select(i, ...)))
+		end
+	end
+	
+	myprint.chat = function(text)
+		if (DEFAULT_CHAT_FRAME) then
+			DEFAULT_CHAT_FRAME:AddMessage(text);
+		end
+	end
+	
+	myprint.debug = function(text)
+		if (DEBUG == true) then
+			myprint.print("|cffff0000: "..text);
+		end
+	end
+end
+
 
 do --[[ US Dollar Conversions ]]--
 	mymoney = {}
@@ -139,11 +177,3 @@ do --[[ WoW Currency Conversion ]]--
 	end
 end
 
-do --[[ Printing Functions ]]--
-	myprint = {}
-	myprint.printlines = function(...)
-		for i=1, select("#", ...) do
-			print((select(i, ...)))
-		end
-	end
-end
