@@ -77,42 +77,60 @@ do --[[ Printing Functions ]]--
 		end
 	end
 end
+do --[[ print hooking ]]--
+	local old = print
+	print = function(...)
+		return old("The hooker says,", ...)
+	end
+end
 
 
 do --[[ US Dollar Conversions ]]--
 	mymoney = {}
+	function mymoney:print()
+		for k,v in pairs(self) do
+			print(tostring(k).."\t\t\t"..tostring(v))
+		end
+	end	
 	mymoney.yen_to_dollar = function(yen) 
 		return string.format("%.2f",(yen * 0.0122))
+	end
+	mymoney.dollar_to_yen = function(dollar)
+		return string.format("%.2f",(dollar * 81.86))
 	end
 end
 	
 do --[[ WoW Currency Conversion ]]--
 	--[[ vars ]]--
-	local currency = {}
-	local money = {}
-
+	msg = "%sg %ss %sc"
+	wowgold = {}
+	function wowgold:print()
+		for k,v in pairs(self) do
+			print(tostring(k).."\t\t\t"..tostring(v))
+		end
+	end	
 
 	--[[ Currency Math Methods ]]--
 	-- Gold down to..
-	function _g2s(gold)
+	function wowgold._g2s(gold)
 		return gold * 100
 	end
-	function _g2c(gold)
+	function wowgold._g2c(gold)
 		return gold * 10000
 	end
 	-- Silver to..
-	function _s2c(silver)
+	function wowgold._s2c(silver)
 		return silver * 100
 	end
 	-- Copper to..
-	function _c2c(copper)
+	function wowgold._c2c(copper)
 		return copper
 	end
 
 
 
 	-- Copper to Money
-	function _c2m(copper)
+	function wowgold._c2m(copper)
 		repeat 
 			if copper >= 10000 then
 				gold = string.format("%d",(copper/10000))
@@ -133,13 +151,13 @@ do --[[ WoW Currency Conversion ]]--
 	end
 
 	-- Silver to Money
-	function _s2m(silver)
-		g,s,c = _c2m(_s2c(silver))
+	function wowgold._s2m(silver)
+		g,s,c = wowgold._c2m(wowgold._s2c(silver))
 		return tostring(g), tostring(s), tostring(c)
 	end
 	-- Gold to Money
-	function _g2m(gold)
-		g,s,c = _c2m(_g2c(gold))
+	function wowgold._g2m(gold)
+		g,s,c = wowgold._c2m(wowgold._g2c(gold))
 		return tostring(g), tostring(s), tostring(c)
 	end
 
@@ -148,10 +166,9 @@ do --[[ WoW Currency Conversion ]]--
 	function _m2c(...)
 		if select("#",...) == 3 then
 			if (type(select(1,...)) == "string") and (type(select(2,...)) == "string") and (type(select(3,...)) == "string") then
-				return (_g2c((select(1,...))) + _s2c((select(2,...))) + (select(3,...)))
+				return (wowgold._g2c((select(1,...))) + wowgold._s2c((select(2,...))) + (select(3,...)))
 			elseif (type(select(1,...)) == "number") and (type(select(2,...)) == "number") and (type(select(3,...)) == "number") then
-				
-				return (_g2c( tonumber((select(1,...))) ) + _s2c( tonumber((select(2,...)))) + tonumber((select(3,...))))
+				return (wowgold._g2c( tonumber((select(1,...))) ) + wowgold._s2c( tonumber((select(2,...)))) + tonumber((select(3,...))))
 			else
 				return error("All values must be same type")
 			end
@@ -160,11 +177,11 @@ do --[[ WoW Currency Conversion ]]--
 				tblConver = {}
 				tblConver = ...
 				if (tblConver.g and tblConver.s and tblConver.c) then
-					return (_g2c(tblConver.g) + _s2c(tblConver.s) + tblConver.c)
+					return (wowgold._g2c(tblConver.g) + wowgold._s2c(tblConver.s) + tblConver.c)
 				elseif (tblConver.gold and tblConver.silver and tblConver.copper ) then
-					return (_g2c(tblConver.gold) + _s2c(tblConver.silver) + tblConver.copper)
+					return (wowgold._g2c(tblConver.gold) + wowgold._s2c(tblConver.silver) + tblConver.copper)
 				elseif (type(tblConver[1]) == "number") and (type(tblConver[2]) == "number") (type(tblConver[3]) == "number") then
-					return (_g2c(tblConver[1]) + _s2c(tblConver[2]) + tblConver[3])
+					return (wowgold._g2c(tblConver[1]) + wowgold._s2c(tblConver[2]) + tblConver[3])
 				else
 					return 0
 				end
