@@ -14,10 +14,20 @@ do --[[ Math Functions ]]--
 	end
 		
 	mymath.percInc = function(base, perc)
-		return (string.format("%.2f",(base + (base * (perc/100)))))
+		if base and perc then
+			return (string.format("%.2f",(base + (base * (perc/100)))))
+		else
+			print("Usage: percInc( BASE, PERCENTAGE )")
+			return nil
+		end
 	end
 	mymath.percDec = function(base, perc)
-		return (string.format("%.2f",(base - (base * (perc/100)))))
+		if base and perc then
+			return (string.format("%.2f",(base - (base * (perc/100)))))
+		else
+			print("Usage: percDec( BASE, PERCENTAGE )")
+			return nil
+		end
 	end
 		
 
