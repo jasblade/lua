@@ -1,4 +1,4 @@
-do --[[ Math Functions ]]--
+ do --[[ Math Functions ]]--
 	mymath = {}
 	function mymath:print()
 		for k,v in pairs(self) do
@@ -87,27 +87,72 @@ do --[[ Printing Functions ]]--
 		end
 	end
 end
+
 do --[[ print hooking ]]--
-	local old = print
+--[[	local old = print
 	print = function(...)
 		return old("The hooker says,", ...)
 	end
+--]]
 end
 
 
 do --[[ US Dollar Conversions ]]--
 	mymoney = {}
+	tblConv = { }
+	tblConv[1] = { fname="US Dollar", symbol="USD", USD=1.0, CAD=0.9753, GBP=0.6182, EURO=0.7146, JPY=81.6485 }
+	tblConv[2] = { fname="Canadian Dollar", symbol="CAD", CAD=1.0, USD=1.0253, GBP=0.6339, EURO=0.7327, JPY=83.7154 }
+	tblConv[3] = { fname="European Union", symbol="EURO", USD=1.3394, CAD=1.3648, GBP=0.8651, EURO=1.0, JPY=114.2589 }
+	tblConv[4] = { fname="British Pound", symbol="GBP", USD=1.6175, CAD=1.5776, GBP=1.0, EURO=1.1559, JPY=132.0705 }
+	tblConv[5] = { fname="Japanese Yen", symbol="JPY", USD=0.0122, CAD=0.0119, GBP=0.0076, EURO=0.0088, JPY=1.0 }
+	
+	
+	function mymoney.convert(currency, this, that)
+		local msg = "Your %.2f%s can be converted to %.2f%s"
+		local bFlag = false 
+		local convRate = 1
+		if tonumber(currency) and tostring(this) and tostring(that) then
+			this = string.upper(this)
+			that = string.upper(that)
+			for i=1, #tblConv do
+				if tblConv[i].symbol == (this) then
+					convRate = tblConv[i][that]
+					bFlag = true
+				end
+			end
+			if bFlag then
+				outVal = ( currency * convRate) 
+				return ( msg:format(currency, this, outVal,that) ) 
+			end		
+		else
+			print("Usage: convert( CURRENCY, THIS, THAT )")
+			for i=1,#tblConv do
+				print( tblConv[i].symbol .."\t".. tblConv[i].fname ) 
+			end
+		end
+	end
+	
 	function mymoney:print()
 		for k,v in pairs(self) do
 			print(tostring(k).."\t\t\t"..tostring(v))
 		end
 	end	
+--[[ NO LONGER NEEDED
 	mymoney.yen_to_dollar = function(yen) 
-		return string.format("%.2f",(yen * 0.0122))
+		if yen and tonumber(yen) then
+			return string.format("%.2f",(yen * 0.0122))
+		else
+			print("Usage: yen_to_dollar( YEN )")
+		end
 	end
 	mymoney.dollar_to_yen = function(dollar)
-		return string.format("%.2f",(dollar * 81.86))
+		if dollar and tonumber(dollar) then
+			return string.format("%.2f",(dollar * 81.86))
+		else
+			print("Usage: dollar_to_yen( DOLLAR )")
+		end
 	end
+--]]
 end
 	
 do --[[ WoW Currency Conversion ]]--
