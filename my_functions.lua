@@ -100,12 +100,12 @@ end
 do --[[ US Dollar Conversions ]]--
 	mymoney = {}
 	tblConv = { }
-	tblConv[1] = { fname="US Dollar", symbol="USD", USD=1.0, CAD=0.9753, GBP=0.6182, EURO=0.7146, JPY=81.6485 }
-	tblConv[2] = { fname="Canadian Dollar", symbol="CAD", CAD=1.0, USD=1.0253, GBP=0.6339, EURO=0.7327, JPY=83.7154 }
-	tblConv[3] = { fname="European Union", symbol="EURO", USD=1.3394, CAD=1.3648, GBP=0.8651, EURO=1.0, JPY=114.2589 }
-	tblConv[4] = { fname="British Pound", symbol="GBP", USD=1.6175, CAD=1.5776, GBP=1.0, EURO=1.1559, JPY=132.0705 }
-	tblConv[5] = { fname="Japanese Yen", symbol="JPY", USD=0.0122, CAD=0.0119, GBP=0.0076, EURO=0.0088, JPY=1.0 }
---	tblConv[6] = { fname="Indian Rupee", symbol="INR", USD=0.0221, CAD=0.02183, GBP=
+	tblConv[1] = { fname="US Dollar", symbol="USD", USD=1.0, CAD=0.9753, GBP=0.6182, EURO=0.7146, JPY=81.6485, INR=45.1514 }
+	tblConv[2] = { fname="Canadian Dollar", symbol="CAD", CAD=1.0, USD=1.0253, GBP=0.6339, EURO=0.7327, JPY=83.7154, INR=45.8266 }
+	tblConv[3] = { fname="European Union", symbol="EURO", USD=1.3394, CAD=1.3648, GBP=0.8651, EURO=1.0, JPY=114.2589, INR=63.3087 }
+	tblConv[4] = { fname="British Pound", symbol="GBP", USD=1.6175, CAD=1.5776, GBP=1.0, EURO=1.1559, JPY=132.0705, INR=72.8676 }
+	tblConv[5] = { fname="Japanese Yen", symbol="JPY", USD=0.0122, CAD=0.0119, GBP=0.0076, EURO=0.0088, JPY=1.0, INR=0.5711 }
+	tblConv[6] = { fname="Indian Rupee", symbol="INR", USD=0.0221, CAD=0.02183, GBP=0.0137 , EURO=0.0158, JPY=1.7509, INR=1.0 }
 	
 	function mymoney.convert( ... )
 --[[		for i=1, select("#",...) do
