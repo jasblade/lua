@@ -105,13 +105,20 @@ do --[[ US Dollar Conversions ]]--
 	tblConv[3] = { fname="European Union", symbol="EURO", USD=1.3394, CAD=1.3648, GBP=0.8651, EURO=1.0, JPY=114.2589 }
 	tblConv[4] = { fname="British Pound", symbol="GBP", USD=1.6175, CAD=1.5776, GBP=1.0, EURO=1.1559, JPY=132.0705 }
 	tblConv[5] = { fname="Japanese Yen", symbol="JPY", USD=0.0122, CAD=0.0119, GBP=0.0076, EURO=0.0088, JPY=1.0 }
+--	tblConv[6] = { fname="Indian Rupee", symbol="INR", USD=0.0221, CAD=0.02183, GBP=
 	
-	
-	function mymoney.convert(currency, this, that)
+	function mymoney.convert( ... )
+--[[		for i=1, select("#",...) do
+			if select(i, ...) then
+				print( i .. " , is type " .. type(i) .. ". " )
+			end
+		end
+]]--		
+		currency, this, that = ... 
 		local msg = "Your %.2f%s can be converted to %.2f%s"
 		local bFlag = false 
 		local convRate = 1
-		if tonumber(currency) and tostring(this) and tostring(that) then
+		if tonumber(currency) and not (type(this) == "nil" or type(that) == "nil" ) then
 			this = string.upper(this)
 			that = string.upper(that)
 			for i=1, #tblConv do
@@ -123,7 +130,24 @@ do --[[ US Dollar Conversions ]]--
 			if bFlag then
 				outVal = ( currency * convRate) 
 				return ( msg:format(currency, this, outVal,that) ) 
-			end		
+			end	
+		elseif tonumber(currency) and ( type(this) == "nil" or type(that) == "nil" ) then
+			randThis = math.random(1,#tblConv)
+			randThat = math.random(1,#tblConv)
+			
+			this = tblConv[randThis].symbol
+			that = tblConv[randThat].symbol
+			
+			for i=1, #tblConv do
+				if tblConv[i].symbol == (this) then
+					convRate = tblConv[i][that]
+					bFlag = true
+				end
+			end
+			if bFlag then
+				outVal = ( currency * convRate) 
+				return ( msg:format(currency, this, outVal,that) ) 
+			end	
 		else
 			print("Usage: convert( CURRENCY, THIS, THAT )")
 			for i=1,#tblConv do
