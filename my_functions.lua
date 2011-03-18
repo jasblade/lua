@@ -190,26 +190,23 @@ do --[[ WoW Currency Conversion ]]--
 	end	
 
 	--[[ Currency Math Methods ]]--
-	-- Gold down to..
-	function wowgold._g2s(gold)
+	
+	function wowgold._g2s(gold) -- Gold down to..
 		return gold * 100
 	end
-	function wowgold._g2c(gold)
+	function wowgold._g2c(gold) -- Gold down to..
 		return gold * 10000
 	end
-	-- Silver to..
-	function wowgold._s2c(silver)
+	
+	function wowgold._s2c(silver) -- Silver to..
 		return silver * 100
 	end
-	-- Copper to..
-	function wowgold._c2c(copper)
+	
+	function wowgold._c2c(copper) -- Copper to..
 		return copper
 	end
-
-
-
-	-- Copper to Money
-	function wowgold._c2m(copper)
+	
+	function wowgold._c2m(copper) -- Copper to Money
 		repeat 
 			if copper >= 10000 then
 				gold = string.format("%d",(copper/10000))
@@ -229,20 +226,20 @@ do --[[ WoW Currency Conversion ]]--
 		return tostring(gold), tostring(silver), tostring(copper)
 	end
 
-	-- Silver to Money
-	function wowgold._s2m(silver)
+	
+	function wowgold._s2m(silver) -- Silver to Money
 		g,s,c = wowgold._c2m(wowgold._s2c(silver))
 		return tostring(g), tostring(s), tostring(c)
 	end
-	-- Gold to Money
-	function wowgold._g2m(gold)
+	
+	function wowgold._g2m(gold) -- Gold to Money
 		g,s,c = wowgold._c2m(wowgold._g2c(gold))
 		return tostring(g), tostring(s), tostring(c)
 	end
 
 	--[[ The Money to Copper Func... it accepts Money as a table or 3 strings of values...it's flexible, but not unbreakable ]]--
 	--[[ .tables passed need to be arrays with 1=gold,2=silver,3=copper or be associative and use  "gold silver copper" or "g s c" as indices ]]--
-	function _m2c(...)
+	function wowgold._m2c(...)
 		if select("#",...) == 3 then
 			if (type(select(1,...)) == "string") and (type(select(2,...)) == "string") and (type(select(3,...)) == "string") then
 				return (wowgold._g2c((select(1,...))) + wowgold._s2c((select(2,...))) + (select(3,...)))
