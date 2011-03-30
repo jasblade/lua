@@ -22,5 +22,6 @@ channel = "SAY"
 
 
 do
+	local randnum = math.random(#fQuotes)
 	
 end
