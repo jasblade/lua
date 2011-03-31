@@ -7,10 +7,12 @@
 	SQD = {}
 	SQD["lootchance"] = 10
 	SQD["dechance"] = 5
+	SQD["leadchance"] = 60
 	SQD["Debug"] = false  
 	SQD["channel"] = "PARTY"
 	
 	fQuotes = {} 
+--	fQuotes[] = { quote="" , response=nil, starter = true }
 	fQuotes[1] = { quote="Time for some thrilling heroics." , response= nil , starter = true} 
 	fQuotes[2] = { quote="Yes. Yes, this is a fertile land, and we will thrive" , response= 3 , starter = true } 
 	fQuotes[3] = { quote="We will rule over all this land, and we will call it... This land.", response = 4 , starter = false } 
@@ -22,7 +24,36 @@
 	fQuotes[9] = { quote="Shoot 'em?" , response= 10 , starter = false } 
 	fQuotes[10] = { quote="Politely.", response= nil  , starter = false } 
 	fQuotes[11] = { quote="Shiny!", response=nil , starter = true } 
-
+	fQuotes[12] = { quote="I brought you some supper but if you'd prefer a lecture, I've a few very catchy ones prepped...sin and hellfire... one has lepers." , response=nil, starter = true }
+	fQuotes[13] = { quote="Well, you were right about this being a bad idea." , response=14, starter = true }
+	fQuotes[14] = { quote="Thanks for sayin', sir." , response=nil, starter = false }
+	fQuotes[15] = { quote="We're not gonna die. We can't die, Bendis. You know why? Because we are so...very...pretty. We are just too pretty for God to let us die." , response=nil, starter = true }
+	fQuotes[16] = { quote="Wash, we've got some local color happening. Your grand entrance would not go amiss right now." , response=nil, starter = true }
+	fQuotes[17] = { quote="There's just an acre of you fellas, ain't there? This is why we lost, you know. Superior numbers." , response=18, starter = true }
+	fQuotes[18] = { quote="Thanks for the re-enactment, sir." , response=nil, starter = false }
+	fQuotes[19] = { quote="And Kaylee, what the hell's goin' on in the engine room? Were there monkeys? Some terrifying space monkeys maybe got loose?" , response=nil, starter = true }
+	fQuotes[20] = { quote="These are stone killers, little man. They ain't cuddly like me." , response=nil, starter = true }
+	fQuotes[21] = { quote="Do you know what the chain of command is here? It's the chain I go get and beat you with to show you who's in command." , response=nil, starter = true }
+	fQuotes[22] = { quote="Proximity alert. Must be coming up on something." , response=23, starter = true }
+	fQuotes[23] = { quote="Oh my god. What can it be? We're all doomed! Who's flying this thing!? Oh right, that would be me. Back to work." , response=nil, starter = false }
+	fQuotes[24] = { quote="It's a real burn, being right so often." , response=nil, starter = true }
+	fQuotes[25] = { quote="Seems odd you'd name your ship after a battle you were on the wrong side of." , response=26 , starter = true }
+	fQuotes[26] = { quote="May have been the losing side. Still not convinced it was the wrong one." , response=nil, starter = false }
+	fQuotes[27] = { quote="These girls have the most beautiful dresses. And so do I-- how 'bout that!" , response=28, starter = true }
+	fQuotes[28] = { quote="Yeah, well, just be careful. We cheated Badger out of good money to buy that frippery, and you're supposed to make me look respectable" , response=29, starter = false }
+	fQuotes[29] = { quote="Yessir, Captain Tight Pants." , response=nil, starter = false }
+	fQuotes[30] = { quote="Okay, help me find our man; he's supposed to be older. Kind of stocky, wears a red sash crossways." , response=31, starter = true }
+	fQuotes[31] = { quote="Why does he do that?" , response=32, starter = false }
+	fQuotes[32] = { quote="Maybe he won the Miss Persephone pageant. Just help me look." , response=nil, starter = false }
+--[[ these next two are not linked, but should be linked with an emote. i'll figure that one out later ]]--
+	fQuotes[33] = { quote="Dear Diary...today I was pompous and my sister was crazy." , response=nil, starter = true }
+	fQuotes[34] = { quote="Today, we were kidnapped by hill folk never to be seen again. It was the best day ever." , response=nil, starter = true }
+--[[                                                                                                                                                    ]]--
+	fQuotes[35] = { quote="Well, look at this! Appears we got here just in the nick of time. Whaddya suppose that makes us?" , response=36, starter = true }
+	fQuotes[36] = { quote="Big damn heroes, sir." , response=37, starter = false }
+	fQuotes[37] = { quote="Ain't we just!" , response=nil, starter = false }
+	
+	
 do --[[ These functions work on getting quotes from the table ]]--
 	findQuote = function(msg)
 		debugprint("Running Find")
@@ -91,6 +122,7 @@ end
 
 --[[ These are event handlers, in the form of a table and they auto-register once the table function is added ]]--	
 SQDEvent = { }
+
 SQDEvent["PLAYER_ENTERING_WORLD"] = function()
 		print( UnitName("player").." has loaded in.")
 	end;
@@ -122,6 +154,14 @@ SQDEvent["CHAT_MSG_MONEY"] = function()
 			SendChatMessage(msg,SQD.channel)
 		end
 		debugprint( UnitName("player") .. "has looted money.\n" .. UnitName("player") .. " rolled "..chanceRand ..". Threshold is "..SQD.lootchance.."%")
+	end;
+SQDEvent["PARTY_LEADER_CHANGED"] = function()
+		chanceRand = math.random(100)
+		if chanceRand <= SQD.leadchance then
+			msg = getthisQuote(21)
+			SendChatMessage(msg,SQD.channel)
+		end
+		debugprint( "Party Leader Changed.\n" .. UnitName("player") .. " rolled "..chanceRand ..". Threshold is "..SQD.lootchance.."%")
 	end;
 SQDEvent["CONFIRM_DISENCHANT_ROLL"] = function()
 		chanceRand = math.random(100)
