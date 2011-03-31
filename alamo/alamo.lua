@@ -319,7 +319,7 @@ Alamo = {
 		
 		return currentFormName;
 ]]--	
-		--[[ I think there's a better way to write this function ]]--
+		--[[ I think this is a better way to write this function -- Shift ]]--
 		local tshape = {}
 		tshape = { 
 			1="Cat Form",
