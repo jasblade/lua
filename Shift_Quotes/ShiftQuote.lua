@@ -23,7 +23,7 @@
 	fQuotes[10] = { quote="Politely.", response= nil  , starter = false } 
 	fQuotes[11] = { quote="Shiny!", response=nil , starter = true } 
 
-do
+do --[[ These functions work on getting quotes from the table ]]--
 	findQuote = function(msg)
 		debugprint("Running Find")
 		for i=1,#fQuotes do
@@ -70,6 +70,10 @@ do
 		end
 	end;
 	
+
+end
+
+do --[[ These are helper functions, print, format, debug, timing ]]--
 	print = function(text)
 		if(DEFAULT_CHAT_FRAME) then
 			DEFAULT_CHAT_FRAME:AddMessage(text);
@@ -82,8 +86,10 @@ do
 		end
 	end;
 end
-
 	
+
+
+--[[ These are event handlers, in the form of a table and they auto-register once the table function is added ]]--	
 SQDEvent = { }
 SQDEvent["PLAYER_ENTERING_WORLD"] = function()
 		print( UnitName("player").." has loaded in.")
