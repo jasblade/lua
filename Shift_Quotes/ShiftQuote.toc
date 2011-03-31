@@ -1,0 +1,7 @@
+## Interface: 40300
+## Title: Firefly Shift Quotes |cff7f7fffv4.0.3|r
+## Author: Shift
+## Version: 4.0.6
+## Notes: Firefly Shift Quotes
+## SavedVariables 
+ShiftQuote.lua
