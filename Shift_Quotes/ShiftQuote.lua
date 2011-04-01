@@ -3,7 +3,7 @@
 --	FireFly Nerd Quoter
 --	Mar2011
 --]]
-
+do --[[ Defaults and Quote table ]]--
 	SQD = {}
 	SQD["activestate"] = true
 	SQD["lootchance"] = 10
@@ -53,7 +53,7 @@
 	fQuotes[35] = { quote="Well, look at this! Appears we got here just in the nick of time. Whaddya suppose that makes us?" , response=36, starter = true }
 	fQuotes[36] = { quote="Big damn heroes, sir." , response=37, starter = false }
 	fQuotes[37] = { quote="Ain't we just!" , response=nil, starter = false }
-	
+end	
 	
 do --[[ These functions work on getting quotes from the table ]]--
 	findQuote = function(msg)

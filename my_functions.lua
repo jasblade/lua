@@ -88,12 +88,13 @@ do --[[ Printing Functions ]]--
 	end
 end
 
-do --[[ print hooking ]]--
+do --[[ print hooking ]]-- 
+--[[
 	local old = print
 	print = function(...)
 		return old("The hooker says,", ...)
 	end
-
+--]]
 end
 
 
