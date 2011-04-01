@@ -5,7 +5,7 @@
 --]]
 
 	SQD = {}
-	SQD["state"] = true
+	SQD["activestate"] = true
 	SQD["lootchance"] = 10
 	SQD["dechance"] = 5
 	SQD["leadchance"] = 60
@@ -195,9 +195,9 @@ do --[[ This is for the slash handler ]]--
 		local cmd, arg = string.split(" ", msg)
 		cmd = cmd:lower()
 		if cmd == "on" then
-			SQD.state = true
+			SQD.activestate = true
 		elseif cmd == "off" then
-			SQD.state = false
+			SQD.activestate = false
 		end
 	end
 end
