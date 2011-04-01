@@ -5,6 +5,7 @@
 --]]
 
 	SQD = {}
+	SQD["state"] = true
 	SQD["lootchance"] = 10
 	SQD["dechance"] = 5
 	SQD["leadchance"] = 60
@@ -181,3 +182,22 @@ for k,_ in pairs(SQDEvent) do
 	SQDframe:RegisterEvent(k)
 end
 SQDframe:SetScript("OnEvent", onEvent)
+
+SLASH_ShiftQuote1 = "/sq"
+SLASH_ShiftQuote2 = "/firefly"
+
+do --[[ This is for the slash handler ]]--
+	-- globals for slash handler responses
+
+	-- functions needed for slash actions
+
+	SlashCmdList["ShiftQuote"] = function(msg)
+		local cmd, arg = string.split(" ", msg)
+		cmd = cmd:lower()
+		if cmd == "on" then
+			SQD.state = true
+		elseif cmd == "off" then
+			SQD.state = false
+		end
+	end
+end
