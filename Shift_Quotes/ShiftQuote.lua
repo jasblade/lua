@@ -6,12 +6,14 @@
 do --[[ Defaults and Quote table ]]--
 	SQD = {}
 	SQD["activestate"] = true
-	SQD["lootchance"] = 10
-	SQD["dechance"] = 5
-	SQD["leadchance"] = 60
 	SQD["Debug"] = false  
 	SQD["channel"] = "PARTY"
+	SQD["lootchance"] = 5
+	SQD["dechance"] = 5
+	SQD["leadchance"] = 60
 	
+end
+do	
 	fQuotes = {} 
 --	fQuotes[] = { quote="" , response=nil, starter = true }
 	fQuotes[1] = { quote="Time for some thrilling heroics." , response= nil , starter = true} 
@@ -59,10 +61,10 @@ do --[[ These functions work on getting quotes from the table ]]--
 	findQuote = function(msg)
 		debugprint("Running Find")
 		for i=1,#fQuotes do
-			--debugprint(fQuotes[i].quote)
+			debugprint(fQuotes[i].quote)
 			if string.match(strlower(msg), strlower(fQuotes[i].quote) ) then
-				_, Next = getthisQuote(i) 
-				--debugprint("match "..i.." Next:"..Next)
+				local _, Next = getthisQuote(i) 
+				debugprint("match "..i.." Next:"..Next)
 				if ( type(Next) ~= "nil" ) then 
 					SendChatMessage(fQuotes[Next].quote, SQD.channel)
 				end
@@ -117,6 +119,30 @@ do --[[ These are helper functions, print, format, debug, timing ]]--
 			print("|cffff0000<SHIFT> "..text);
 		end
 	end;
+
+
+	format = function(oVar)
+		if(oVar == nil) then 
+			return "nil";
+		elseif(type(oVar) == "table") then
+			local i, v = next(oVar, nil);
+			local ret = "{ ";
+			while i do
+				ret = ret .. Alamo.format(v) .. " ";
+				i, v = next(oVar, i);
+			end
+			ret = ret .. "}";
+			return ret;
+		elseif(type(oVar)=="boolean") then
+			if (oVar==false) then
+				return "false";
+			else
+				return "true";
+			end;
+		else
+		    return oVar;
+		end
+	end
 end
 	
 
@@ -125,7 +151,7 @@ end
 SQDEvent = { }
 
 SQDEvent["PLAYER_ENTERING_WORLD"] = function()
-		print( UnitName("player").." has loaded in.")
+		print( "|cffff0000<SHIFT> "..UnitName("player").." has loaded in.")
 	end;
 SQDEvent["CHAT_MSG_SAY"] = function(...)
 		msg, author = ...
@@ -152,7 +178,7 @@ SQDEvent["CHAT_MSG_MONEY"] = function()
 		chanceRand = math.random(100)
 		if chanceRand <= SQD.lootchance then
 			msg = getthisQuote(11)
-			SendChatMessage(msg,SQD.channel)
+			SendChatMessage(msg,"SAY")
 		end
 		debugprint( UnitName("player") .. "has looted money.\n" .. UnitName("player") .. " rolled "..chanceRand ..". Threshold is "..SQD.lootchance.."%")
 	end;
@@ -160,7 +186,7 @@ SQDEvent["PARTY_LEADER_CHANGED"] = function()
 		chanceRand = math.random(100)
 		if chanceRand <= SQD.leadchance then
 			msg = getthisQuote(21)
-			SendChatMessage(msg,SQD.channel)
+			SendChatMessage(msg,"PARTY")
 		end
 		debugprint( "Party Leader Changed.\n" .. UnitName("player") .. " rolled "..chanceRand ..". Threshold is "..SQD.lootchance.."%")
 	end;
@@ -188,16 +214,24 @@ SLASH_ShiftQuote2 = "/firefly"
 
 do --[[ This is for the slash handler ]]--
 	-- globals for slash handler responses
-
+	debugstate = "Debugging has been turned set to %s"
 	-- functions needed for slash actions
 
 	SlashCmdList["ShiftQuote"] = function(msg)
 		local cmd, arg = string.split(" ", msg)
 		cmd = cmd:lower()
+		arg = arg:lower()
 		if cmd == "on" then
 			SQD.activestate = true
 		elseif cmd == "off" then
 			SQD.activestate = false
+		elseif cmd == "debug" then
+			if arg == "on" then 
+				SQD.Debug = true
+			else  
+				SQD.Debug = false
+			end
+			print(msg:format(SQD.Debug) )
 		end
 	end
 end
