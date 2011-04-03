@@ -58,15 +58,15 @@ do
 end	
 	
 do --[[ These functions work on getting quotes from the table ]]--
-	findQuote = function(msg)
+	findQuote = function(msg, chatchannel)
 		debugprint("Running Find")
 		for i=1,#fQuotes do
 			debugprint(fQuotes[i].quote)
 			if string.match(strlower(msg), strlower(fQuotes[i].quote) ) then
 				local _, Next = getthisQuote(i) 
 				debugprint("match "..i.." Next:"..Next)
-				if ( type(Next) ~= "nil" ) then 
-					SendChatMessage(fQuotes[Next].quote, SQD.channel)
+				if ( type(Next) == "number" ) then 
+					SendChatMessage(fQuotes[Next].quote, chatchannel)
 				end
 				return
 			end
@@ -135,9 +135,9 @@ do --[[ These are helper functions, print, format, debug, timing ]]--
 			return ret;
 		elseif(type(oVar)=="boolean") then
 			if (oVar==false) then
-				return "false";
+				return "off";
 			else
-				return "true";
+				return "on";
 			end;
 		else
 		    return oVar;
@@ -157,21 +157,21 @@ SQDEvent["CHAT_MSG_SAY"] = function(...)
 		msg, author = ...
 		debugprint( "Msg Received: " ..msg.." from: "..author)
 		if author ~= UnitName("player") then
-			findQuote(msg)
+			findQuote(msg, "SAY")
 		end
 	end;
 SQDEvent["CHAT_MSG_PARTY"] = function(...)
 		msg, author = ...
 		debugprint( "Msg Received: " ..msg.." from: "..author)
 		if author ~= UnitName("player") then
-			findQuote(msg)
+			findQuote(msg, "PARTY")
 		end
 	end;
 SQDEvent["CHAT_MSG_PARTY_LEADER"] = function(...)
 		msg, author = ...
 		debugprint( "Leader Msg Received: " ..msg)
 		if author ~= UnitName("player") then
-			findQuote(msg)
+			findQuote(msg,  "PARTY")
 		end
 	end;
 SQDEvent["CHAT_MSG_MONEY"] = function()
@@ -194,7 +194,7 @@ SQDEvent["CONFIRM_DISENCHANT_ROLL"] = function()
 		chanceRand = math.random(100)
 		if chanceRand <= SQD.dechance then
 			msg = getthisQuote(7)
-			SendChatMessage(msg,SQD.channel)
+			SendChatMessage(msg,"SAY")
 		end
 		debugprint( UnitName("player") .. "has looted money.\n" .. UnitName("player") .. " rolled "..chanceRand ..". Threshold is "..SQD.dechance.."%")
 	end;
@@ -215,6 +215,7 @@ SLASH_ShiftQuote2 = "/firefly"
 do --[[ This is for the slash handler ]]--
 	-- globals for slash handler responses
 	debugstate = "Debugging has been turned set to %s"
+	runstatus = "Shift Firefly Quoter has been turned %s"
 	-- functions needed for slash actions
 
 	SlashCmdList["ShiftQuote"] = function(msg)
@@ -223,15 +224,17 @@ do --[[ This is for the slash handler ]]--
 		arg = arg:lower()
 		if cmd == "on" then
 			SQD.activestate = true
+			print(runstatus:format(SQD.activestate))
 		elseif cmd == "off" then
 			SQD.activestate = false
+			print(runstatus:format(SQD.activestate))
 		elseif cmd == "debug" then
 			if arg == "on" then 
 				SQD.Debug = true
 			else  
 				SQD.Debug = false
 			end
-			print(msg:format(SQD.Debug) )
+			print(debugstate:format(SQD.Debug) )
 		end
 	end
 end
