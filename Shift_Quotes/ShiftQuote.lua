@@ -5,12 +5,12 @@
 --]]
 do --[[ Defaults and Quote table ]]--
 	SQD = {}
-	SQD["activestate"] = true
-	SQD["Debug"] = false  
+	SQD["activestate"] = false
+	SQD["Debug"] = true  
 	SQD["channel"] = "PARTY"
 	SQD["lootchance"] = 5
 	SQD["dechance"] = 5
-	SQD["leadchance"] = 60
+	SQD["leadchance"] = 5
 	
 end
 do	
@@ -121,7 +121,7 @@ do --[[ These are helper functions, print, format, debug, timing ]]--
 	end;
 
 
-	format = function(oVar)
+	ovarformat = function(oVar)
 		if(oVar == nil) then 
 			return "nil";
 		elseif(type(oVar) == "table") then
@@ -156,14 +156,14 @@ SQDEvent["PLAYER_ENTERING_WORLD"] = function()
 SQDEvent["CHAT_MSG_SAY"] = function(...)
 		msg, author = ...
 		debugprint( "Msg Received: " ..msg.." from: "..author)
-		if author ~= UnitName("player") then
+		if author ~= UnitName("player")  then
 			findQuote(msg, "SAY")
 		end
 	end;
 SQDEvent["CHAT_MSG_PARTY"] = function(...)
 		msg, author = ...
 		debugprint( "Msg Received: " ..msg.." from: "..author)
-		if author ~= UnitName("player") then
+		if author ~= UnitName("player")  then
 			findQuote(msg, "PARTY")
 		end
 	end;
@@ -186,7 +186,7 @@ SQDEvent["PARTY_LEADER_CHANGED"] = function()
 		chanceRand = math.random(100)
 		if chanceRand <= SQD.leadchance then
 			msg = getthisQuote(21)
-			SendChatMessage(msg,"PARTY")
+			--SendChatMessage(msg,"PARTY")
 		end
 		debugprint( "Party Leader Changed.\n" .. UnitName("player") .. " rolled "..chanceRand ..". Threshold is "..SQD.lootchance.."%")
 	end;
@@ -200,14 +200,16 @@ SQDEvent["CONFIRM_DISENCHANT_ROLL"] = function()
 	end;
 	
 onEvent = function(self, event, ...)
-	SQDEvent[event](...)
+	if SQD.activestate == true then
+		SQDEvent[event](...)
+	end
 end;
 	
 local SQDframe = CreateFrame("Frame")
 for k,_ in pairs(SQDEvent) do
 	SQDframe:RegisterEvent(k)
 end
-SQDframe:SetScript("OnEvent", onEvent)
+SQDframe:SetScript("OnEvent", OnEvent)
 
 SLASH_ShiftQuote1 = "/sq"
 SLASH_ShiftQuote2 = "/firefly"
@@ -221,20 +223,25 @@ do --[[ This is for the slash handler ]]--
 	SlashCmdList["ShiftQuote"] = function(msg)
 		local cmd, arg = string.split(" ", msg)
 		cmd = cmd:lower()
-		arg = arg:lower()
+		if type(arg) ~= "nil" then
+			arg = arg:lower()
+		end
 		if cmd == "on" then
 			SQD.activestate = true
-			print(runstatus:format(SQD.activestate))
+			ovar = ovarformat(SQD.activestate)
+			print(runstatus:format(ovar))
 		elseif cmd == "off" then
 			SQD.activestate = false
-			print(runstatus:format(SQD.activestate))
+			ovar = format(SQD.activestate)
+			print(runstatus:format(ovar))
 		elseif cmd == "debug" then
 			if arg == "on" then 
 				SQD.Debug = true
 			else  
 				SQD.Debug = false
 			end
-			print(debugstate:format(SQD.Debug) )
+			ovar = ovarformat(SQD.Debug)
+			print(debugstate:format(ovar) )
 		end
 	end
 end
